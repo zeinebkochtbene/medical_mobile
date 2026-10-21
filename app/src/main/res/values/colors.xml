@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#114E4B</color>
+    <color name="primary_dark">#0C3C3A</color>
+    <color name="ink">#0F2A29</color>
+    <color name="muted">#4F625F</color>
+    <color name="line">#D3DCDA</color>
+    <color name="background">#F4F7F6</color>
+    <color name="white">#FFFFFF</color>
+    <color name="box_stroke">#757575</color>
+</resources>
