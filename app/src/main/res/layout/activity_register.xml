@@ -69,20 +69,49 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilAge"
+            android:id="@+id/tilDateNaissance"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:hint="Âge">
+            android:hint="Date de naissance">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etAge"
+                android:id="@+id/etDateNaissance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:maxLength="3" />
+                android:focusable="false"
+                android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Sexe"
+            android:textColor="@color/ink"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/rgSexe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbHomme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Homme" />
+
+            <RadioButton
+                android:id="@+id/rbFemme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:text="Femme" />
+        </RadioGroup>
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilTelephone"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"

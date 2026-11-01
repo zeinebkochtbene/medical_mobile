@@ -7,7 +7,8 @@ data class UserRequestDTO(
     val prenom: String? = null,
     val confirmMotDePasse: String? = null,
     val role: String? = null,
-    val age: Int? = null,
+    val sexe: String? = null,            // "HOMME" ou "FEMME"
+    val dateNaissance: String? = null,   // "aaaa-mm-jj"
     val telephone: String? = null,
     val image: String? = null
 )

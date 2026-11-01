@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import tn.rnu.isetr.projet_medical.data.UserRequestDTO
 import tn.rnu.isetr.projet_medical.data.UserResponseDTO
+import tn.rnu.isetr.projet_medical.data.errorMessage
 import tn.rnu.isetr.projet_medical.repository.AuthRepository
 
 class AuthViewModel : ViewModel() {
@@ -22,7 +23,7 @@ class AuthViewModel : ViewModel() {
                 if (response.isSuccessful && response.body() != null) {
                     _registerResult.value = Result.success(response.body()!!)
                 } else {
-                    _registerResult.value = Result.failure(Exception("Erreur : ${response.errorBody()?.string()}"))
+                    _registerResult.value = Result.failure(Exception(response.errorMessage()))
                 }
             } catch (e: Exception) {
                 _registerResult.value = Result.failure(e)
