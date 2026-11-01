@@ -71,10 +71,11 @@
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="nom@exemple.com"
+
             android:inputType="textEmailAddress"
             android:textColor="@color/ink" />
     </com.google.android.material.textfield.TextInputLayout>
+
 
     <!-- Mot de passe -->
     <TextView
@@ -104,22 +105,21 @@
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="••••••••"
+
             android:inputType="textPassword"
             android:textColor="@color/ink" />
     </com.google.android.material.textfield.TextInputLayout>
+        <TextView
+            android:id="@+id/btnForgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:padding="8dp"
+            android:text="Mot de passe oublié ?"
+            android:textColor="@color/primary"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/tvForgot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginTop="6dp"
-        android:padding="8dp"
-        android:text="Mot de passe oublié ?"
-        android:textColor="@color/primary"
-        android:textSize="14sp"
-        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvError"

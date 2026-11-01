@@ -10,4 +10,10 @@ interface ApiService {
 
     @POST("auth/login")
     suspend fun login(@Body request: UserRequestDTO): Response<UserResponseDTO>
+
+    @POST("auth/forgot-password")
+    suspend fun forgotPassword(@Body body: ForgotPasswordRequest): Response<MessageResponse>
+
+    @POST("auth/reset-password")
+    suspend fun resetPassword(@Body body: ResetPasswordRequest): Response<MessageResponse>
 }
