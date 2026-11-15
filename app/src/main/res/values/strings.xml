@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">projet_medical</string>
+    <string name="app_name">MediRDV</string>
+
+    <!-- Ajoute ces deux lignes pour corriger l'erreur -->
+    <string name="navigation_drawer_open">Ouvrir le menu de navigation</string>
+    <string name="navigation_drawer_close">Fermer le menu de navigation</string>
 </resources>

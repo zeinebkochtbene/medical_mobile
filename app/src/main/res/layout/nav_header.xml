@@ -1,6 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:background="#0D9488"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Avatar rond avec silhouette -->
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivUserAvatar"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:background="#FFFFFF"
+        android:contentDescription="Photo de profil"
+        android:padding="14dp"
+        android:src="@drawable/ic_person"
+        app:shapeAppearanceOverlay="@style/CircleImage"
+        app:tint="#94A3B8" />
+
+    <TextView
+        android:id="@+id/tvUserNom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:text="Sarah Ben Amor" />
+
+    <TextView
+        android:id="@+id/tvUserEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#E2E8F0"
+        android:textSize="13sp"
+        tools:text="sarah.benamor@mail.com" />
+
+</LinearLayout>

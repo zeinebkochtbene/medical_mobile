@@ -12,5 +12,7 @@ data class MedecinResponseDTO(
     val email: String,
     val approved: Boolean,
     val numeroOrdre: String,
-    val specialite: SpecialiteDTO?
+    val specialite: SpecialiteDTO?,
+    val image: String? = null,
+    val adresse: String? = null
 )

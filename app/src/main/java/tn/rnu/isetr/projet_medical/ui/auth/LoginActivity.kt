@@ -4,20 +4,25 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope // <-- Indispensable
-import kotlinx.coroutines.launch       // <-- Indispensable
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import tn.rnu.isetr.projet_medical.MainActivity
 import tn.rnu.isetr.projet_medical.data.RetrofitClient
+import tn.rnu.isetr.projet_medical.data.SessionManager
 import tn.rnu.isetr.projet_medical.data.UserRequestDTO
 import tn.rnu.isetr.projet_medical.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        sessionManager = SessionManager(this)
 
         binding.btnLogin.setOnClickListener {
             val email = binding.etEmail.text.toString().trim()
@@ -33,18 +38,33 @@ class LoginActivity : AppCompatActivity() {
                 motDePasse = password
             )
 
-            // Appel de la fonction suspend dans une coroutine
             lifecycleScope.launch {
                 try {
                     val response = RetrofitClient.apiService.login(loginRequest)
                     if (response.isSuccessful && response.body() != null) {
-                        val user = response.body()!!
-                        Toast.makeText(this@LoginActivity, "Connexion réussie !", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
+                        val responseBody = response.body()!!
+
+                        if (responseBody.token != null) {
+                            // Combine le prénom et le nom (ex: "Sarah Ben Amor")
+                            val fullName = "${responseBody.prenom} ${responseBody.nom}"
+
+                            // Sauvegarde dans le SessionManager
+                            sessionManager.saveToken(responseBody.token)
+                            sessionManager.saveUserName(fullName)
+                            sessionManager.saveUserEmail(responseBody.email)
+
+                            Toast.makeText(this@LoginActivity, "Connexion réussie !", Toast.LENGTH_SHORT).show()
+
+                            // Redirection vers l'écran principal
+                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        } else {
+                            Toast.makeText(this@LoginActivity, "Token manquant dans la réponse", Toast.LENGTH_SHORT).show()
+                        }
                     } else {
-                        Toast.makeText(this@LoginActivity, "Email ou mot de passe incorrect", Toast.LENGTH_SHORT).show()
+                        val errorMsg = response.errorBody()?.string() ?: "Email ou mot de passe incorrect"
+                        Toast.makeText(this@LoginActivity, "Échec : $errorMsg", Toast.LENGTH_LONG).show()
                     }
                 } catch (e: Exception) {
                     Toast.makeText(this@LoginActivity, "Erreur réseau : ${e.message}", Toast.LENGTH_LONG).show()
