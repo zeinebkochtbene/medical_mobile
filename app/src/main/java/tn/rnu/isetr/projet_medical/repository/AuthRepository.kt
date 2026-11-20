@@ -23,5 +23,6 @@ class AuthRepository (private val session: SessionManager) {
 
     fun logout() = session.clear()
 
+    //si l'utilisateur est deja connecter
     fun isLoggedIn(): Boolean = session.isLoggedIn()
 }

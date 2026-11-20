@@ -30,7 +30,7 @@ interface ApiService {
         @Header("Authorization") token: String? = null
     ): Response<List<MedecinResponseDTO>>
 
-    @GET("api/patient/medecin/{id}/creneaux") // ⬅️ Corrigé ici pour matcher Spring Boot
+    @GET("api/patient/medecin/{id}/creneaux")
     suspend fun getCreneaux(
         @Path("id") medecinId: Long,
         @Query("date") date: String? = null,
@@ -43,7 +43,7 @@ interface ApiService {
         @Header("Authorization") token: String?
     ): Response<CreneauResponseDTO>
 
-    @GET("api/rendezvous/patient") // ⬅️ Doit matcher le préfixe du contrôleur + l'endpoint
+    @GET("api/rendezvous/patient")
     suspend fun getMesRendezVous(
         @Header("Authorization") token: String?
     ): Response<List<RendezVousResponse>>

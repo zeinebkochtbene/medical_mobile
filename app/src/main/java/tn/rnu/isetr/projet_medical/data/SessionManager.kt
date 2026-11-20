@@ -19,8 +19,6 @@ class SessionManager(private val context: Context) {
 
     fun getToken(): String? = prefs.getString(USER_TOKEN, null)
 
-    fun fetchToken(): String? = getToken()   // garde-le seulement si d'autres fichiers l'utilisent
-
     fun isLoggedIn(): Boolean = getToken() != null
 
     fun saveUserName(name: String) {

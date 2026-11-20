@@ -73,7 +73,7 @@ class RegisterActivity : AppCompatActivity() {
             authViewModel.signup(userRequest)
         }
 
-        // Résultat de l'inscription
+
         authViewModel.registerResult.observe(this) { result ->
             if (result.isSuccess) {
                 Toast.makeText(this, "Inscription réussie !", Toast.LENGTH_LONG).show()

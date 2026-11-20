@@ -13,8 +13,6 @@ data class ResetPasswordRequest(
 )
 
 data class MessageResponse(val message: String)
-
-// Lit le "message" renvoyé par le back en cas d'erreur (400)
 fun Response<*>.errorMessage(): String =
     try {
         Gson().fromJson(errorBody()?.string(), MessageResponse::class.java)?.message

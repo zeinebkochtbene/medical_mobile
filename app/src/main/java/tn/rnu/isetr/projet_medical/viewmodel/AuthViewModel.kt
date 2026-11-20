@@ -13,16 +13,10 @@ import tn.rnu.isetr.projet_medical.data.errorMessage
 import tn.rnu.isetr.projet_medical.repository.AuthRepository
 
 class AuthViewModel(application: Application) : AndroidViewModel(application) {
-
-    // 1. Initialisation du SessionManager avec le contexte de l'application
     private val sessionManager = SessionManager(application)
-
-    // 2. Passage du sessionManager au repository pour que le token soit enregistré automatiquement
     private val repository = AuthRepository(sessionManager)
-
     private val _registerResult = MutableLiveData<Result<UserResponseDTO>>()
     val registerResult: LiveData<Result<UserResponseDTO>> get() = _registerResult
-
     fun signup(user: UserRequestDTO) {
         viewModelScope.launch {
             try {
@@ -38,7 +32,6 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    // --- POUR LA CONNEXION ---
     private val _loginResult = MutableLiveData<Result<UserResponseDTO>>()
     val loginResult: LiveData<Result<UserResponseDTO>> get() = _loginResult
 
@@ -53,12 +46,10 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                     val loggedUser = response.body()!!
                     _loginResult.value = Result.success(loggedUser)
                     _authenticatedUser.value = loggedUser
+                    sessionManager.saveUserName("${loggedUser.prenom} ${loggedUser.nom}".trim())
+                    sessionManager.saveUserEmail(loggedUser.email)
 
-                    // --- SAUVEGARDE DANS LE SESSIONMANAGER ---
-                    sessionManager.saveUserName(loggedUser.nom)    // Remplacez .nom par .name selon votre UserResponseDTO
-                    sessionManager.saveUserEmail(loggedUser.email) // Enregistre l'email
-                    // (Le token est généralement déjà sauvegardé par le repository, mais vous pouvez ajouter sessionManager.saveToken(...) si nécessaire)
-                    // ------------------------------------------
+
 
                 } else {
                     _loginResult.value = Result.failure(Exception("Email ou mot de passe incorrect"))
@@ -69,7 +60,6 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    // Fonctions bonus pour vérifier la session ou se déconnecter si besoin
     fun isLoggedIn(): Boolean = repository.isLoggedIn()
     fun logout() = repository.logout()
 }

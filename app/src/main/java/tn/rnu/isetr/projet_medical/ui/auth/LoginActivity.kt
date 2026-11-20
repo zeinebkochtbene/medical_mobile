@@ -1,20 +1,18 @@
 package tn.rnu.isetr.projet_medical.ui.auth
-
+import tn.rnu.isetr.projet_medical.viewmodel.AuthViewModel
 import android.content.Intent
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
 import tn.rnu.isetr.projet_medical.MainActivity
-import tn.rnu.isetr.projet_medical.data.RetrofitClient
-import tn.rnu.isetr.projet_medical.data.SessionManager
 import tn.rnu.isetr.projet_medical.data.UserRequestDTO
 import tn.rnu.isetr.projet_medical.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var sessionManager: SessionManager
+    private lateinit var authViewModel: AuthViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +20,22 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        sessionManager = SessionManager(this)
+        authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
+
+        // 1. Observer le résultat de la connexion
+        authViewModel.loginResult.observe(this) { result ->
+            result.onSuccess {
+                Toast.makeText(this, "Connexion réussie !", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            }.onFailure { error ->
+                Toast.makeText(
+                    this,
+                    error.message ?: "Email ou mot de passe incorrect",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
 
         binding.btnLogin.setOnClickListener {
             val email = binding.etEmail.text.toString().trim()
@@ -37,39 +50,7 @@ class LoginActivity : AppCompatActivity() {
                 email = email,
                 motDePasse = password
             )
-
-            lifecycleScope.launch {
-                try {
-                    val response = RetrofitClient.apiService.login(loginRequest)
-                    if (response.isSuccessful && response.body() != null) {
-                        val responseBody = response.body()!!
-
-                        if (responseBody.token != null) {
-                            // Combine le prénom et le nom (ex: "Sarah Ben Amor")
-                            val fullName = "${responseBody.prenom} ${responseBody.nom}"
-
-                            // Sauvegarde dans le SessionManager
-                            sessionManager.saveToken(responseBody.token)
-                            sessionManager.saveUserName(fullName)
-                            sessionManager.saveUserEmail(responseBody.email)
-
-                            Toast.makeText(this@LoginActivity, "Connexion réussie !", Toast.LENGTH_SHORT).show()
-
-                            // Redirection vers l'écran principal
-                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        } else {
-                            Toast.makeText(this@LoginActivity, "Token manquant dans la réponse", Toast.LENGTH_SHORT).show()
-                        }
-                    } else {
-                        val errorMsg = response.errorBody()?.string() ?: "Email ou mot de passe incorrect"
-                        Toast.makeText(this@LoginActivity, "Échec : $errorMsg", Toast.LENGTH_LONG).show()
-                    }
-                } catch (e: Exception) {
-                    Toast.makeText(this@LoginActivity, "Erreur réseau : ${e.message}", Toast.LENGTH_LONG).show()
-                }
-            }
+            authViewModel.login(loginRequest)
         }
 
         binding.btnGoRegister.setOnClickListener {
