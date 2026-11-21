@@ -65,7 +65,11 @@
                     android:textSize="14sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
-
+        <Button
+            android:id="@+id/btnOpenChatbot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Assistant santé" />
         <!-- Titre : Prochain rendez-vous -->
         <LinearLayout
             android:layout_width="wrap_content"

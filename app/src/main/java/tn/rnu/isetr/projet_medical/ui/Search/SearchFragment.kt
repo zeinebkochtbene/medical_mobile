@@ -16,6 +16,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 import tn.rnu.isetr.projet_medical.R
+import tn.rnu.isetr.projet_medical.data.ChatbotContext
 import tn.rnu.isetr.projet_medical.data.MedecinResponseDTO
 import tn.rnu.isetr.projet_medical.data.Resource
 import tn.rnu.isetr.projet_medical.data.RetrofitClient
@@ -26,6 +27,8 @@ import tn.rnu.isetr.projet_medical.viewmodel.MedecinViewModel
 
 class SearchFragment : Fragment() {
 
+    private var resumeChatbot: String? = null
+    private var specialiteRecommandee: String? = null
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: MedecinAdapter
@@ -44,6 +47,11 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        resumeChatbot = arguments?.getString("resume_chatbot")
+            ?: requireActivity().intent?.getStringExtra("resume_chatbot")
+        specialiteRecommandee = arguments?.getString("specialite_recommandee")
+            ?: requireActivity().intent?.getStringExtra("specialite_recommandee")
 
         adapter = MedecinAdapter(emptyList()) { medecin -> ouvrirCreneaux(medecin) }
         binding.recyclerMedecins.layoutManager = LinearLayoutManager(requireContext())
@@ -218,7 +226,15 @@ class SearchFragment : Fragment() {
 
     private fun ouvrirCreneaux(m: MedecinResponseDTO) {
         parentFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, CreneauFragment.newInstance(m.id, "Dr. ${m.prenom} ${m.nom}"))
+            .replace(
+                R.id.fragmentContainer,
+                CreneauFragment.newInstance(
+                    m.id,
+                    "Dr. ${m.prenom} ${m.nom}",
+                    ChatbotContext.resume,
+                    ChatbotContext.specialite
+                )
+            )
             .addToBackStack(null)
             .commit()
     }

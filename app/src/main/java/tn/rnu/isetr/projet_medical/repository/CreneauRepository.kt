@@ -51,12 +51,21 @@ class CreneauRepository(private val session: SessionManager) {
         }
     }
 
-    suspend fun reserverCreneau(id: Long): Resource<CreneauResponseDTO> {
+    suspend fun reserverCreneau(
+        id: Long,
+        resumeChatbot: String? = null,
+        specialiteRecommandee: String? = null
+    ): Resource<CreneauResponseDTO> {
         return try {
             val token = session.getToken()
             val authHeader = if (!token.isNullOrEmpty()) "Bearer $token" else null
 
-            val response = api.reserverCreneau(id, authHeader)
+            val response = api.reserverCreneau(
+                id = id,
+                token = authHeader,
+                resumeChatbot = resumeChatbot,
+                specialiteRecommandee = specialiteRecommandee
+            )
             val body = response.body()
             if (response.isSuccessful && body != null) {
                 Resource.Success(body)

@@ -45,6 +45,12 @@
         <activity
             android:name=".ui.auth.ResetPasswordActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.chatbot.ChatbotActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+
 
     </application>
 

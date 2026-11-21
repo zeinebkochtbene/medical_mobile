@@ -9,6 +9,8 @@ import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
+
+
 import tn.rnu.isetr.projet_medical.data.model.RendezVousResponse
 
 
@@ -40,7 +42,9 @@ interface ApiService {
     @PATCH("api/creneaux/reserver/{id}")
     suspend fun reserverCreneau(
         @Path("id") id: Long,
-        @Header("Authorization") token: String?
+        @Header("Authorization") token: String?,
+        @Query("resumeChatbot") resumeChatbot: String? = null,
+        @Query("specialiteRecommandee") specialiteRecommandee: String? = null
     ): Response<CreneauResponseDTO>
 
     @GET("api/rendezvous/patient")
@@ -70,4 +74,6 @@ interface ApiService {
         @Query("localisation") localisation: String?,
         @Header("Authorization") token: String? = null
     ): Response<List<MedecinResponseDTO>>
+
+
 }

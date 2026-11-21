@@ -7,5 +7,6 @@ data class RendezVousResponse(
     val specialite: String?,
     val dateCreneau: String?,
     val heureCreneau: String?,
-    val cabinet: String?
+    val cabinet: String?,
+    val resumeChatbot: String? = null
 )

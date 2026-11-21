@@ -67,10 +67,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         // 🟢 C'EST ICI : On lance HomeFragment par défaut au démarrage
         if (savedInstanceState == null) {
-            binding.navView.setCheckedItem(R.id.nav_home) // Assure-toi que ton item s'appelle nav_home dans le menu (ou nav_accueil)
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, HomeFragment())
-                .commit()
+            if (intent.getBooleanExtra("open_search", false)) {
+                binding.navView.setCheckedItem(R.id.nav_recherche)
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, SearchFragment())
+                    .commit()
+            } else {
+                binding.navView.setCheckedItem(R.id.nav_home)
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, HomeFragment())
+                    .commit()
+            }
         }
 
         onBackPressedDispatcher.addCallback(this, object : androidx.activity.OnBackPressedCallback(true) {

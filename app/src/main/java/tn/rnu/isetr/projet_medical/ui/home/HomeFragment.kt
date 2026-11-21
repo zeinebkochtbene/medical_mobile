@@ -18,6 +18,8 @@ import tn.rnu.isetr.projet_medical.ui.search.SearchFragment
 import tn.rnu.isetr.projet_medical.viewmodel.HomeViewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
+import android.content.Intent
+import tn.rnu.isetr.projet_medical.ui.chatbot.ChatbotActivity
 
 class HomeFragment : Fragment() {
 
@@ -46,6 +48,10 @@ class HomeFragment : Fragment() {
         binding.btnDetails.setOnClickListener { afficherDetails() }
         binding.cardMesRdv.setOnClickListener {
             Toast.makeText(requireContext(), "Écran « Mes rendez-vous » : bientôt disponible", Toast.LENGTH_SHORT).show()
+        }
+        binding.btnOpenChatbot.setOnClickListener {
+            val intent = Intent(requireContext(), ChatbotActivity::class.java)
+            startActivity(intent)
         }
 
         viewModel.prochainRdv.observe(viewLifecycleOwner) { etat ->

@@ -41,10 +41,18 @@ class CreneauViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun reserverCreneau(id: Long) {
+    fun reserverCreneau(
+        id: Long,
+        resumeChatbot: String? = null,
+        specialiteRecommandee: String? = null
+    ) {
         _reservationState.value = Resource.Loading
         viewModelScope.launch {
-            _reservationState.value = repo.reserverCreneau(id)
+            _reservationState.value = repo.reserverCreneau(
+                id = id,
+                resumeChatbot = resumeChatbot,
+                specialiteRecommandee = specialiteRecommandee
+            )
         }
     }
 }

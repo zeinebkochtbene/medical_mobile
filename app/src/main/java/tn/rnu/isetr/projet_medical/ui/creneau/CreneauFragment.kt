@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import tn.rnu.isetr.projet_medical.data.ChatbotContext
 import tn.rnu.isetr.projet_medical.data.Resource
 import tn.rnu.isetr.projet_medical.databinding.FragmentCreneauBinding
 import tn.rnu.isetr.projet_medical.viewmodel.CreneauViewModel
@@ -22,12 +23,17 @@ class CreneauFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: CreneauViewModel by viewModels()
     private lateinit var adapter: CreneauAdapter
+
     private var medecinId = 0L
+    private var resumeChatbot: String? = null
+    private var specialiteRecommandee: String? = null
     private var dateChoisie: Calendar = Calendar.getInstance()   // aujourd'hui par défaut
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         medecinId = requireArguments().getLong(ARG_ID)
+        resumeChatbot = arguments?.getString(ARG_RESUME)
+        specialiteRecommandee = arguments?.getString(ARG_SPECIALITE)
     }
 
     override fun onCreateView(
@@ -59,7 +65,11 @@ class CreneauFragment : Fragment() {
         }
 
         adapter = CreneauAdapter(emptyList()) { creneau ->
-            viewModel.reserverCreneau(creneau.id)
+            viewModel.reserverCreneau(
+                id = creneau.id,
+                resumeChatbot = resumeChatbot,
+                specialiteRecommandee = specialiteRecommandee
+            )
         }
         binding.recyclerCreneaux.layoutManager = GridLayoutManager(requireContext(), 3)
         binding.recyclerCreneaux.adapter = adapter
@@ -84,6 +94,9 @@ class CreneauFragment : Fragment() {
             when (etat) {
                 is Resource.Success -> {
                     Toast.makeText(requireContext(), "Rendez-vous réservé avec succès !", Toast.LENGTH_SHORT).show()
+                    resumeChatbot = null
+                    specialiteRecommandee = null
+                    ChatbotContext.clear()
                     chargerPourDateChoisie()
                 }
                 is Resource.Error -> Toast.makeText(requireContext(), etat.message, Toast.LENGTH_LONG).show()
@@ -118,11 +131,20 @@ class CreneauFragment : Fragment() {
     companion object {
         private const val ARG_ID = "medecinId"
         private const val ARG_NOM = "medecinNom"
+        private const val ARG_RESUME = "resumeChatbot"
+        private const val ARG_SPECIALITE = "specialiteRecommandee"
 
-        fun newInstance(medecinId: Long, medecinNom: String) = CreneauFragment().apply {
+        fun newInstance(
+            medecinId: Long,
+            medecinNom: String,
+            resumeChatbot: String? = null,
+            specialiteRecommandee: String? = null
+        ) = CreneauFragment().apply {
             arguments = Bundle().apply {
                 putLong(ARG_ID, medecinId)
                 putString(ARG_NOM, medecinNom)
+                putString(ARG_RESUME, resumeChatbot)
+                putString(ARG_SPECIALITE, specialiteRecommandee)
             }
         }
     }

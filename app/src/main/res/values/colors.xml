@@ -13,4 +13,13 @@
     <color name="badge_red">#C62828</color>
     <color name="teal_primary">#00796B</color>
 
+    <color name="teal">#0F766E</color>
+
+    <color name="screen_bg">#F1F5F9</color>
+    <color name="info_bg">#E6EFFA</color>
+    <color name="info_text">#1D4E89</color>
+    <color name="border">#DDE5EA</color>
+    <color name="urgence_bg">#FDECEE</color>
+    <color name="urgence_text">#8F1126</color>
+
 </resources>
