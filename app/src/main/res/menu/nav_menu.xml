@@ -14,10 +14,7 @@
             android:id="@+id/nav_rdv"
             android:icon="@drawable/ic_calendar"
             android:title="Mes RDV" />
-        <item
-            android:id="@+id/nav_profil"
-            android:icon="@drawable/ic_person"
-            android:title="Mon Profil" />
+
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_logout"

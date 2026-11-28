@@ -114,9 +114,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .replace(R.id.fragmentContainer, MesRendezVousFragment())
                     .commit()
             }
-            R.id.nav_profil -> {
-                // TODO: Charger le fragment profil
-            }
+
             R.id.nav_logout -> {
                 sessionManager.clear()
                 val intent = Intent(this, LoginActivity::class.java)
